@@ -49,6 +49,16 @@ jobs:
     steps:
       - print_pipeline_id
 
+  nonZero_whenFail_job:
+    docker:
+      - image: circleci/node:13.8.0
+    steps:
+      - run: exit 1
+      - run:
+          name: when errors
+          command: echo "Hello Error!"
+          when: on_fail
+
 workflows:
 
   first-workflow:
@@ -66,3 +76,4 @@ workflows:
           requires:
             - save_hello_world_output
       - reusable_jobs
+      - nonZero_whenFail_job
